@@ -1,0 +1,18 @@
+rabbitmq:
+  image: "rabbitmq:3-management"
+  hostname: "rabbitmq"
+  environment:
+    RABBITMQ_DEFAULT_USER: "rabbitmq"
+    RABBITMQ_DEFAULT_PASS: "rabbitmq"
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+  labels:
+    NAME: "rabbitmq"
+
+
+appcivist-pb-client:
+  build: ./frontend
+  ports:
+    - "8000:8000"
+  tty: true
