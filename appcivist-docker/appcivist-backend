@@ -25,6 +25,7 @@ set -e
 . /lib/lsb/init-functions
 
 start() {
+  rm $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID
   echo "Starting $DESC... "
   start-stop-daemon -v --start --chuid "$USER:$GROUP" --exec $APPCIVIST_BCK_DIR/$APPCIVIST_BCK_BIN
   echo "done"
@@ -42,8 +43,8 @@ killtree() {
 
 stop() {
   echo "Stopping $DESC... "
-  echo "Testing  $APPCIVIST_BCK_DIR/$NAME-play.pid"
-  ls $APPCIVIST_BCK_DIR
+  echo "Testing  $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID"
+
 #  if [ -f $APPCIVIST_BCK_DIR/$NAME-play.pid ]; then
 #    echo "PID file found $APPCIVIST_BCK_DIR/$NAME-play.pid"
 #    echo "Killing process tree /proc/`cat $APPCIVIST_BCK_DIR/$NAME-play.pid`"
@@ -55,15 +56,15 @@ stop() {
 #    rm $APPCIVIST_BCK_DIR/$NAME-play.pid
 #  fi
 #  echo "done"
-  if [ ! -f $APPCIVIST_BCK_DIR/$NAME-play.pid ]
+  if [ ! -f $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID ]
   then
-    echo "$APPCIVIST_BCK_DIR/$NAME-play.pid does not exist, process is not running"
+    echo "$APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID does not exist, process is not running"
     exit 1
   else
-    echo "PID file found $APPCIVIST_BCK_DIR/$NAME-play.pid"
-    echo "Killing process tree /proc/`cat $APPCIVIST_BCK_DIR/$NAME-play.pid`"
-    kill `cat $APPCIVIST_BCK_DIR/$NAME-play.pid`;
-    rm -f $APPCIVIST_BCK_DIR/$NAME-play.pid;
+    echo "PID file found $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID"
+    echo "Killing process tree /proc/`cat $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID`"
+    kill `cat $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID`;
+    rm -f $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID;
     echo "$NAME stopped"
 
     #while [ -d /proc/$(cat $APPCIVIST_BCK_DIR/$NAME-play.pid) ]; do
@@ -75,7 +76,7 @@ stop() {
 }
 
 status() {
-  status_of_proc -p $APPCIVIST_BCK_DIR/$NAME-play.pid "" "appcivist-backend" && exit 0 || exit $?
+  status_of_proc -p $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID "" "appcivist-backend" && exit 0 || exit $?
 }
 
 case "$1" in

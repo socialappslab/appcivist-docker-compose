@@ -14,5 +14,20 @@ rabbitmq:
 appcivist-pb-client:
   build: ./frontend
   ports:
-    - "8000:8000"
+    - "8080:8080"
   tty: true
+  volumes:
+  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+  command: "./deploy.sh"
+
+
+appcivist-plataform:
+  build: ./appcivist-docker
+  ports:
+    - "9000:9000"
+  tty: true
+  volumes:
+  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
+  command: "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+  links:
+  - rabbitmq
