@@ -14,10 +14,10 @@ RUN chown appcivist:appcivist ${PROJECT_HOME}
 USER appcivist
 #Add init script
 ADD appcivist-backend /etc/init.d/appcivist-backend
+ADD deploy.sh deploy.sh
 # Expose play ports 9000 default 9999 debug 8888 activator ui
 EXPOSE 9000
 EXPOSE 9999
 EXPOSE 8888
 #build the project and start it
 WORKDIR  ${PROJECT_HOME}
-CMD ./activator stage

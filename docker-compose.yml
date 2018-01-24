@@ -28,6 +28,6 @@ appcivist-plataform:
   tty: true
   volumes:
   - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+  command: "./deploy.sh"
   links:
   - rabbitmq
