@@ -12,7 +12,7 @@ rabbitmq:
 
 
 appcivist-pb-client:
-  build: ./frontend
+  build: ./appcivist-frontend
   ports:
     - "8080:8080"
   tty: true
@@ -22,7 +22,7 @@ appcivist-pb-client:
 
 
 appcivist-plataform:
-  build: ./appcivist-docker
+  build: ./appcivist-backend
   ports:
     - "9000:9000"
   tty: true
