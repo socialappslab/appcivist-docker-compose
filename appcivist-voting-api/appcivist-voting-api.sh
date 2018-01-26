@@ -1,10 +1,11 @@
 #!/bin/sh 
-CMD="/usr/local/bin/rails"
+CMD="/usr/local/bundle/bin/rails"
 CMD_ARGS='server -p 5000'
 APP_DIR='/home/appcivist/production/appcivist-voting-api';
 PID_FILE=$APP_DIR/app.pid
 LOG_FILE=$APP_DIR/app.log
-
+USER=appcivist
+GROUP=appcivist
 ###############
 
 # REDHAT chkconfig header
@@ -26,8 +27,8 @@ set -e
 . /lib/lsb/init-functions
 
 start_app (){
-    export SECRET_KEY_BASE=ae6e041df2fdc3e70682a521af1e2bb46f2085f98033d17729d5b6232d8e7a724c54087f4b396b8763c2f12c4af7a28b8763f05c12a8949685fc4613c88bb10a
-    export DATABASE_URL="postgresql://appcivist:.21.c-84.dpt.@localhost:5432/appcivist"
+    export SECRET_KEY_BASE=${VOTING_API_SECRET}
+    export DATABASE_URL="postgresql://${VOTING_API_DB_USER}:${VOTING_API_DB_PASS}@localhost:5432/appcivist"
     export RAILS_ENV=production
     export HOME=$APP_DIR
     if [ -f $PID_FILE ]
