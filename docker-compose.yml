@@ -31,3 +31,12 @@ appcivist-plataform:
   command: "./deploy.sh"
   links:
   - rabbitmq
+
+appcivist-voting-api:
+  build: ./appcivist-voting-api
+  ports:
+    - "5000:5000"
+  tty: true
+  volumes:
+  - /home/yohanna/desarrollo/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
+  command: "sudo /etc/init.d/appcivist-voting-api restart"
