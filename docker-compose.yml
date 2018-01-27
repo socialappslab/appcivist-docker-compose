@@ -11,6 +11,7 @@
 #    NAME: "rabbitmq"
 #  net: "host"
 #
+
 #
 #appcivist-pb-client:
 #  build: ./appcivist-frontend
@@ -31,11 +32,20 @@
 #  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
 #  net: "host"
 
-appcivist-voting-api:
-  build: ./appcivist-voting-api
+#appcivist-voting-api:
+#  build: ./appcivist-voting-api
+#  ports:
+#    - "5000:5000"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
+#  command: bash -c "./deploy.sh"
+#  net: "host"
+
+etherpad-lite:
+  build: ./etherpad-lite
   ports:
-    - "5000:5000"
+    - "9001:9001"
   volumes:
-  - /home/yohanna/desarrollo/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh"
+  - /home/yohanna/desarrollo/etherpad-lite:/home/etherpad/etherpad-lite
+  command: bash -c "/etc/init.d/etherpad-lite start"
   net: "host"
