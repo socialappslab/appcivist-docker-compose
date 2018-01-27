@@ -27,6 +27,7 @@ set -e
 . /lib/lsb/init-functions
 
 start_app (){
+    which rails
     export SECRET_KEY_BASE=${VOTING_API_SECRET}
     export DATABASE_URL="postgresql://${VOTING_API_DB_USER}:${VOTING_API_DB_PASS}@localhost:5432/appcivist"
     export RAILS_ENV=production

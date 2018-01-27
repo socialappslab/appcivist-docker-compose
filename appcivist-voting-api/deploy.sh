@@ -1,5 +1,6 @@
 #!/bin/bash
-gem install bundler --pre
 cd /home/appcivist/production/appcivist-voting-api
+gem install rails -v 4.2.5
+gem install bundler
 bundle install
-sudo sh /etc/init.d/appcivist-voting-api.sh start
+sh /etc/init.d/appcivist-voting-api.sh start
