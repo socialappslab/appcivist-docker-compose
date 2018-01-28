@@ -42,10 +42,7 @@
 #  net: "host"
 
 etherpad-lite:
-  build: ./etherpad-lite
+  image: "pevtrick/etherpad-lite"
   ports:
     - "9001:9001"
-  volumes:
-  - /home/yohanna/desarrollo/etherpad-lite:/home/etherpad/etherpad-lite
-  command: bash -c "/etc/init.d/etherpad-lite start"
   net: "host"
