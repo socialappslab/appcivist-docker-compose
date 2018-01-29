@@ -10,25 +10,25 @@
 #  labels:
 #    NAME: "rabbitmq"
 #  net: "host"
-
-appcivist-pb-client:
-  build: ./appcivist-frontend
-  ports:
-    - "8080:8080"
-  volumes:
-  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  command: "./deploy.sh"
-  net: "host"
-
-
-appcivist-plataform:
-  build: ./appcivist-backend
-  ports:
-    - "9000:9000"
-  volumes:
-  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
-  net: "host"
+#
+#appcivist-pb-client:
+#  build: ./appcivist-frontend
+#  ports:
+#    - "8080:8080"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+#  command: "./deploy.sh"
+#  net: "host"
+#
+#
+#appcivist-plataform:
+#  build: ./appcivist-backend
+#  ports:
+#    - "9000:9000"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
+#  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+#  net: "host"
 #
 #appcivist-voting-api:
 #  build: ./appcivist-voting-api
@@ -39,16 +39,27 @@ appcivist-plataform:
 #  command: bash -c "./deploy.sh"
 #  net: "host"
 #
-etherpad-lite:
-  image: "tvelocity/etherpad-lite"
+#etherpad-lite:
+#  image: "tvelocity/etherpad-lite"
+#  ports:
+#    - "9001:9001"
+#  net: "host"
+#  environment:
+#    ETHERPAD_DB_TYPE: "postgres"
+#    ETHERPAD_DB_HOST: "localhost"
+#    ETHERPAD_DB_USER: "postgres"
+#    ETHERPAD_DB_PASSWORD: "postgres"
+#    ETHERPAD_DB_NAME: "etherpad_appcivist"
+
+appcivist-usnb:
+  build: ./usnb
   ports:
-    - "9001:9001"
+    - "3023:3023"
+    - "3024:3024"
+    - "3025:3025"
+    - "3026:3026"
+    - "3027:3027"
+  volumes:
+  - /home/yohanna/desarrollo/usnb:/home/appcivist/production/appcivist-pb-client
+  command: "./deploy.sh production"
   net: "host"
-  environment:
-    ETHERPAD_DB_TYPE: "postgres"
-    ETHERPAD_DB_HOST: "localhost"
-    ETHERPAD_DB_USER: "postgres"
-    ETHERPAD_DB_PASSWORD: "postgres"
-    ETHERPAD_DB_NAME: "etherpad_appcivist"
-
-
