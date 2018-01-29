@@ -25,7 +25,9 @@ set -e
 . /lib/lsb/init-functions
 
 start() {
-  rm $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID
+  if [ -f $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID ]; then
+    rm $APPCIVIST_BCK_DIR/target/universal/stage/RUNNING_PID
+  fi
   echo "Starting $DESC... "
   start-stop-daemon -v --start --chuid "$USER:$GROUP" --exec $APPCIVIST_BCK_DIR/$APPCIVIST_BCK_BIN
   echo "done"

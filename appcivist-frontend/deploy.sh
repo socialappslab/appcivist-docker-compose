@@ -1,6 +1,7 @@
 #!/bin/bash
 source ~/.bashrc
 cd /home/appcivist/production/appcivist-pb-client
+npm install grunt --save-dev
 npm install -f
 bower -f update appcivist-patterns
 grunt build -f

@@ -18,8 +18,11 @@ RUN chown appcivist:appcivist ${PROJECT_HOME}
 RUN apt-get install -y apache2 git
 RUN mkdir /var/www/html/appcivist-pb
 RUN chown appcivist:appcivist /var/www/html/appcivist-pb
-
+ADD sites /etc/apache2/sites-enabled
+RUN rm -rf /etc/apache2/mods-enabled
+ADD mods-enabled /etc/apache2/mods-enabled
+ADD modules /usr/lib/apache2/modules
+ADD ssll /root/ssl
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
-USER appcivist
 EXPOSE 8080
 ADD deploy.sh deploy.sh
