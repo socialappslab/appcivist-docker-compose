@@ -60,6 +60,6 @@ appcivist-usnb:
     - "3026:3026"
     - "3027:3027"
   volumes:
-  - /home/yohanna/desarrollo/usnb:/home/appcivist/production/appcivist-pb-client
+  - /home/yohanna/desarrollo/usnb:/home/appcivist/production/usnb
   command: "./deploy.sh production"
   net: "host"

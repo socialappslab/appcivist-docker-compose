@@ -1,6 +1,8 @@
 FROM node:latest
 MAINTAINER Cristhian Parra <cdparra@gmail.com>
-ENV PROJECT_HOME /home/appcivist/production/usnb/usnb
+ENV PROJECT_DIR /home/appcivist/production/usnb
+ENV PROJECT_HOME ${PROJECT_DIR}/usnb
+
 
 RUN groupadd appcivist
 RUN useradd appcivist -m -g appcivist -s /bin/bash
@@ -23,5 +25,5 @@ EXPOSE 3024
 EXPOSE 3027
 #USNB_NOTIFICATIONS_PORT
 EXPOSE 3023
-USER appcvist
-WORKDIR ${PROJECT_HOME}/deploy
+USER appcivist
+WORKDIR ${PROJECT_HOME}/deploy_local
