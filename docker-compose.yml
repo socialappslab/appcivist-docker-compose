@@ -1,63 +1,80 @@
-rabbitmq:
-  image: "rabbitmq:3-management"
-  hostname: "rabbitmq"
+#rabbitmq:
+#  image: "rabbitmq:3-management"
+#  hostname: "rabbitmq"
+#  environment:
+#    RABBITMQ_DEFAULT_USER: "user"
+#    RABBITMQ_DEFAULT_PASS: "pass"
+#  ports:
+#    - "5672:5672"
+#    - "15672:15672"
+#  labels:
+#    NAME: "rabbitmq"
+#  net: "host"
+#
+#appcivist-pb-client:
+#  build: ./appcivist-frontend
+#  ports:
+#    - "8080:8080"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+#  command: "./deploy.sh"
+#  net: "host"
+#
+#
+#appcivist-plataform:
+#  build: ./appcivist-backend
+#  ports:
+#    - "9000:9000"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
+#  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+#  net: "host"
+#
+#appcivist-voting-api:
+#  build: ./appcivist-voting-api
+#  ports:
+#    - "5000:5000"
+#  volumes:
+#  - /home/yohanna/desarrollo/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
+#  command: bash -c "./deploy.sh"
+#  net: "host"
+#
+#etherpad-lite:
+#  image: "tvelocity/etherpad-lite"
+#  ports:
+#    - "9001:9001"
+#  net: "host"
+#  environment:
+#    ETHERPAD_DB_TYPE: "postgres"
+#    ETHERPAD_DB_HOST: "localhost"
+#    ETHERPAD_DB_USER: "postgres"
+#    ETHERPAD_DB_PASSWORD: "postgres"
+#    ETHERPAD_DB_NAME: "etherpad_appcivist"
+#
+#appcivist-usnb:
+#  build: ./usnb
+#  ports:
+#    - "3023:3023"
+#    - "3024:3024"
+#    - "3025:3025"
+#    - "3026:3026"
+#    - "3027:3027"
+#  command: bash -c "./deploy.sh production && tail -f /dev/null"
+#  net: "host"
+
+db:
+  image: postgres:9.4.5
   environment:
-    RABBITMQ_DEFAULT_USER: "user"
-    RABBITMQ_DEFAULT_PASS: "pass"
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  labels:
-    NAME: "rabbitmq"
-  net: "host"
-
-appcivist-pb-client:
-  build: ./appcivist-frontend
-  ports:
-    - "8080:8080"
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_USER: postgres
   volumes:
-  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  command: "./deploy.sh"
+  - ./postgres-data:/var/lib/postgresql/data
   net: "host"
 
-
-appcivist-plataform:
-  build: ./appcivist-backend
-  ports:
-    - "9000:9000"
+mongo:
+  image: mongo:3.0.15
   volumes:
-  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
-  net: "host"
-
-appcivist-voting-api:
-  build: ./appcivist-voting-api
+  - ./mongo:/data/db
   ports:
-    - "5000:5000"
-  volumes:
-  - /home/yohanna/desarrollo/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh"
-  net: "host"
-
-etherpad-lite:
-  image: "tvelocity/etherpad-lite"
-  ports:
-    - "9001:9001"
-  net: "host"
-  environment:
-    ETHERPAD_DB_TYPE: "postgres"
-    ETHERPAD_DB_HOST: "localhost"
-    ETHERPAD_DB_USER: "postgres"
-    ETHERPAD_DB_PASSWORD: "postgres"
-    ETHERPAD_DB_NAME: "etherpad_appcivist"
-
-appcivist-usnb:
-  build: ./usnb
-  ports:
-    - "3023:3023"
-    - "3024:3024"
-    - "3025:3025"
-    - "3026:3026"
-    - "3027:3027"
-  command: bash -c "./deploy.sh production && tail -f /dev/null"
+    - "27017:27017"
   net: "host"
