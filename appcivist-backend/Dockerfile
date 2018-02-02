@@ -11,9 +11,10 @@ RUN echo "appcivist ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/appcivist
 RUN chmod 0440 /etc/sudoers.d/appcivist
 RUN mkdir -p ${PROJECT_HOME}
 RUN chown appcivist:appcivist ${PROJECT_HOME}
+ADD appcivist-backend /etc/init.d/appcivist-backend
+RUN chmod 777 /etc/init.d/appcivist-backend
 USER appcivist
 #Add init script
-ADD appcivist-backend /etc/init.d/appcivist-backend
 
 # Expose play ports 9000 default 9999 debug 8888 activator ui
 EXPOSE 9000
