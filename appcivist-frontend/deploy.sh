@@ -7,4 +7,5 @@ bower -f update appcivist-patterns
 grunt build -f
 rm -rf /var/www/html/appcivist-pb/*
 cp -rf dist/* /var/www/html/appcivist-pb
+sudo service apache2 stop
 sudo apachectl -D FOREGROUND
