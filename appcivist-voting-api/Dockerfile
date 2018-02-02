@@ -19,6 +19,7 @@ RUN chown -R appcivist:appcivist /usr/local/bundle
 ADD appcivist-voting-api.sh /etc/init.d/appcivist-voting-api.sh
 RUN chmod 777 /etc/init.d/appcivist-voting-api.sh
 ADD deploy.sh deploy.sh
+RUN chmod 777 deploy.sh
 EXPOSE 5000
 USER appcivist
 
