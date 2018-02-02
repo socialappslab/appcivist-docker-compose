@@ -26,3 +26,4 @@ ADD ssll /root/ssl
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
 EXPOSE 8080
 ADD deploy.sh deploy.sh
+RUN chmod 777 deploy.sh
