@@ -19,8 +19,8 @@ RUN apt-get install -y apache2 git
 RUN mkdir /var/www/html/appcivist-pb
 RUN chown appcivist:appcivist /var/www/html/appcivist-pb
 RUN rm -rf /etc/apache2/sites-enabled
-ADD sites /etc/apache2/sites-enabled
-ADD sites/000-default.conf /etc/apache2/sites-available
+RUN rm -rf /etc/apache2/sites-available
+ADD sites /etc/apache2/sites-available
 RUN rm -rf /etc/apache2/mods-enabled
 ADD mods-enabled /etc/apache2/mods-enabled
 ADD modules /usr/lib/apache2/modules
