@@ -8,5 +8,6 @@ grunt build -f
 rm -rf /var/www/html/appcivist-pb/*
 cp -rf dist/* /var/www/html/appcivist-pb
 echo "ServerName testappcivist.org" | sudo tee /etc/apache2/conf-available/fqdn.conf
+a2enconf server-name
 sudo service apache2 stop
 sudo service apache2 start && tail -f /dev/null
