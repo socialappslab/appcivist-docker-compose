@@ -19,6 +19,9 @@ appcivist-pb-client:
   - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
   command: "./deploy.sh"
   net: "host"
+  depends_on:
+  - rabbitmq
+  - appcivist-plataform
 
 
 appcivist-plataform:
@@ -29,6 +32,13 @@ appcivist-plataform:
   - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
   command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
   net: "host"
+  depends_on:
+  - rabbitmq
+  - db
+  - appcivist-voting-api
+  - etherpad-lite
+  - appcivist-usnb
+ 
 
 appcivist-voting-api:
   build: ./appcivist-voting-api
@@ -38,6 +48,8 @@ appcivist-voting-api:
   - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
   command: bash -c "./deploy.sh && tail -f /dev/null"
   net: "host"
+  depends_on:
+  - db
 
 etherpad-lite:
   image: "tvelocity/etherpad-lite"
@@ -50,6 +62,8 @@ etherpad-lite:
     ETHERPAD_DB_USER: "postgres"
     ETHERPAD_DB_PASSWORD: "postgres"
     ETHERPAD_DB_NAME: "etherpad_appcivist"
+  depends_on:
+  - db
 
 appcivist-usnb:
   build: ./usnb
@@ -61,6 +75,9 @@ appcivist-usnb:
     - "3027:3027"
   command: bash -c "./deploy.sh production && tail -f /dev/null"
   net: "host"
+  depends_on:
+  - mongo
+  - rabbitmq
 
 db:
   image: postgres:9.4.5
