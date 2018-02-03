@@ -36,7 +36,7 @@ appcivist-voting-api:
     - "5000:5000"
   volumes:
   - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh"
+  command: bash -c "./deploy.sh && tail -f /dev/null"
   net: "host"
 
 etherpad-lite:
