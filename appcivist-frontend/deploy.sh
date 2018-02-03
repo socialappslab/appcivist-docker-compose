@@ -11,7 +11,11 @@ sudo service apache2 restart
 echo "ServerName testappcivist.org" | sudo tee /etc/apache2/conf-available/fqdn.conf
 sudo a2enconf fqdn
 sudo service apache2 reload
+sudo a2ensite 000-default.conf
+sudo service apache2 reload
 sudo a2ensite 000-default.vhost.conf
+sudo service apache2 reload
+sudo a2ensite 000-default.conf
 sudo service apache2 reload
 sudo a2ensite 111-appcivist-pb.conf
 sudo service apache2 reload
