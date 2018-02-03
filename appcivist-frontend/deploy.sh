@@ -9,10 +9,13 @@ rm -rf /var/www/html/appcivist-pb/*
 cp -rf dist/* /var/www/html/appcivist-pb
 echo "ServerName testappcivist.org" | sudo tee /etc/apache2/conf-available/fqdn.conf
 a2enconf fqdn
-sudo service apache2 stop
+
 a2ensite 000-default.vhost.conf
-a2ensite 111-appcivist-pb.conf
-a2ensite 222-etherpad.conf
-a2ensite 333-appcivist-plataform.conf
 service apache2 reload
-sudo service apache2 start && tail -f /dev/null
+a2ensite 111-appcivist-pb.conf
+service apache2 reload
+a2ensite 222-etherpad.conf
+service apache2 reload
+a2ensite 333-appcivist-platform.conf
+service apache2 reload
+sudo service apache2 restart && tail -f /dev/null
