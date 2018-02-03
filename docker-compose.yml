@@ -1,98 +1,119 @@
-rabbitmq:
-  image: "rabbitmq:3-management"
-  hostname: "rabbitmq"
-  environment:
-    RABBITMQ_DEFAULT_USER: "user"
-    RABBITMQ_DEFAULT_PASS: "pass"
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  labels:
-    NAME: "rabbitmq"
-  net: "host"
+version: "2.2"
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "rabbitmq"
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "pass"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    labels:
+      NAME: "rabbitmq"
+    network_mode: "host"
 
-appcivist-pb-client:
-  build: ./appcivist-frontend
-  ports:
-    - "8080:8080"
-  volumes:
-  - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  command: "./deploy.sh"
-  net: "host"
-  links:
-  - rabbitmq
-  - appcivist-plataform
+  appcivist-pb-client:
+    build: ./appcivist-frontend
+    ports:
+      - "8080:8080"
+    volumes:
+    - appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+    command: "./deploy.sh"
+    network_mode: "host"
+    depends_on:
+    - rabbitmq
+    - appcivist-plataform
 
 
-appcivist-plataform:
-  build: ./appcivist-backend
-  ports:
-    - "9000:9000"
-  volumes:
-  - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
-  net: "host"
-  links:
-  - rabbitmq
-  - db
-  - appcivist-voting-api
-  - etherpad-lite
-  - appcivist-usnb
- 
+  appcivist-plataform:
+    build: ./appcivist-backend
+    ports:
+      - "9000:9000"
+    volumes:
+    - appcivist-platform:/home/appcivist/production/appcivist-platform
+    command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+    network_mode: "host"
+    depends_on:
+    - rabbitmq
+    - db
+    - appcivist-voting-api
+    - etherpad-lite
+    - appcivist-usnb
 
-appcivist-voting-api:
-  build: ./appcivist-voting-api
-  ports:
-    - "5000:5000"
-  volumes:
-  - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh && tail -f /dev/null"
-  net: "host"
-  links:
-  - db
 
-etherpad-lite:
-  image: "tvelocity/etherpad-lite"
-  ports:
-    - "9001:9001"
-  net: "host"
-  environment:
-    ETHERPAD_DB_TYPE: "postgres"
-    ETHERPAD_DB_HOST: "localhost"
-    ETHERPAD_DB_USER: "postgres"
-    ETHERPAD_DB_PASSWORD: "postgres"
-    ETHERPAD_DB_NAME: "etherpad_appcivist"
-  links:
-  - db
+  appcivist-voting-api:
+    build: ./appcivist-voting-api
+    ports:
+      - "5000:5000"
+    volumes:
+    - appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
+    command: bash -c "./deploy.sh && tail -f /dev/null"
+    network_mode: "host"
+    depends_on:
+    - db
 
-appcivist-usnb:
-  build: ./usnb
-  ports:
-    - "3023:3023"
-    - "3024:3024"
-    - "3025:3025"
-    - "3026:3026"
-    - "3027:3027"
-  command: bash -c "./deploy.sh production && tail -f /dev/null"
-  net: "host"
-  links:
-  - mongo
-  - rabbitmq
+  etherpad-lite:
+    image: "tvelocity/etherpad-lite"
+    ports:
+      - "9001:9001"
+    network_mode: "host"
+    environment:
+      ETHERPAD_DB_TYPE: "postgres"
+      ETHERPAD_DB_HOST: "localhost"
+      ETHERPAD_DB_USER: "postgres"
+      ETHERPAD_DB_PASSWORD: "postgres"
+      ETHERPAD_DB_NAME: "etherpad_appcivist"
+    depends_on:
+    - db
 
-db:
-  image: postgres:9.4.5
-  environment:
-    POSTGRES_PASSWORD: postgres
-    POSTGRES_USER: postgres
-  volumes:
-  - postgresql.conf:/etc/postgresql/postgresql.conf
-  - /var/lib/postgresql/data:/var/lib/postgresql/data
-  net: "host"
+  appcivist-usnb:
+    build: ./usnb
+    ports:
+      - "3023:3023"
+      - "3024:3024"
+      - "3025:3025"
+      - "3026:3026"
+      - "3027:3027"
+    command: bash -c "./deploy.sh production && tail -f /dev/null"
+    network_mode: "host"
+    depends_on:
+    - mongo
+    - rabbitmq
 
-mongo:
-  image: mongo:3.0.15
-  volumes:
-  - /var/lib/mongo/data:/data/db
-  ports:
-    - "27017:27017"
-  net: "host"
+  db:
+    image: postgres:9.4.5
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+    - postgresql-conf:/etc/postgresql/postgresql.conf
+    - postgresql-data:/var/lib/postgresql/data
+    network_mode: "host"
+
+  mongo:
+    image: mongo:3.0.15
+    volumes:
+    - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    network_mode: "host"
+volumes:
+  mongo-data:
+    external:
+      name: /var/lib/mongo/data
+  postgresql-conf:
+    external:
+      name: postgresql.conf
+  postgresql-data:
+    external:
+      name: /var/lib/postgresql/data
+  appcivist-voting-api:
+    external:
+      name: /home/appcivist/production/appcivist-voting-api
+  appcivist-platform:
+    external:
+      name: /home/appcivist/production/appcivist-platform
+  appcivist-pb-client:
+   external:
+      name: /home/appcivist/production/appcivist-pb-client
