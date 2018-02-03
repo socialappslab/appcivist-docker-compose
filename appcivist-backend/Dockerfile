@@ -15,6 +15,7 @@ ADD appcivist-backend /etc/init.d/appcivist-backend
 RUN chmod 777 /etc/init.d/appcivist-backend
 USER appcivist
 #Add init script
+ADD conf ${PROJECT_HOME}/conf
 
 # Expose play ports 9000 default 9999 debug 8888 activator ui
 EXPOSE 9000
