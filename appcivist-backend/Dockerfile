@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install sudo
 RUN echo "appcivist ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/appcivist
 RUN chmod 0440 /etc/sudoers.d/appcivist
 RUN mkdir -p ${PROJECT_HOME}
+RUN mkdir -p /opt/appcivist/files
+RUN chown appcivist:appcivist /opt/appcivist/files
 RUN chown appcivist:appcivist ${PROJECT_HOME}
 ADD appcivist-backend /etc/init.d/appcivist-backend
 RUN chmod 777 /etc/init.d/appcivist-backend
