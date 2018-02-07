@@ -1,5 +1,5 @@
 #!/bin/bash
-HOME_DIR='/home/yohanna/desarrollo/'
+HOME_DIR='/home/appcivist/production/'
 echo 'pulling backend'
 cd ${HOME_DIR}
 cd appcivist-platform
