@@ -2,14 +2,13 @@ rabbitmq:
   image: "rabbitmq:3-management"
   hostname: "rabbitmq"
   environment:
-    RABBITMQ_DEFAULT_USER: "user"
-    RABBITMQ_DEFAULT_PASS: "pass"
+  - RABBITMQ_DEFAULT_USER
+  - RABBITMQ_DEFAULT_PASS
   ports:
     - "5672:5672"
     - "15672:15672"
-  labels:
-    NAME: "rabbitmq"
   net: "host"
+  container_name: appcivist_rabbitmq
 
 appcivist-pb-client:
   build: ./appcivist-frontend
@@ -20,6 +19,7 @@ appcivist-pb-client:
   - /opt/appcivist/files:/opt/appcivist/files
   command: "./deploy.sh"
   net: "host"
+  container_name: appcivist-pb-client
 
 appcivist-plataform:
   build: ./appcivist-backend
@@ -31,6 +31,7 @@ appcivist-plataform:
   net: "host"
   volumes_from:
   - appcivist-pb-client
+  container_name: appcivist-plataform
 
 appcivist-voting-api:
   build: ./appcivist-voting-api
@@ -40,18 +41,25 @@ appcivist-voting-api:
   - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
   command: bash -c "./deploy.sh && tail -f /dev/null"
   net: "host"
+  environment:
+  - POSTGRES_PASSWORD
+  - POSTGRES_USER
+  - POSTGRES_DB
+  - VOTING_API_SECRET
+  container_name: appcivist-voting-api
 
 etherpad-lite:
-  image: "tvelocity/etherpad-lite"
+  build: ./etherpad-lite
   ports:
     - "9001:9001"
   net: "host"
   environment:
-    ETHERPAD_DB_TYPE: "postgres"
-    ETHERPAD_DB_HOST: "localhost"
-    ETHERPAD_DB_USER: "postgres"
-    ETHERPAD_DB_PASSWORD: "postgres"
-    ETHERPAD_DB_NAME: "etherpad_appcivist"
+  - ETHERPAD_DB_TYPE
+  - ETHERPAD_DB_HOST
+  - ETHERPAD_DB_USER
+  - ETHERPAD_DB_PASSWORD
+  - ETHERPAD_DB_NAME
+  container_name: etherpad-lite
 
 appcivist-usnb:
   build: ./usnb
@@ -63,16 +71,29 @@ appcivist-usnb:
     - "3027:3027"
   command: bash -c "./deploy.sh production && tail -f /dev/null"
   net: "host"
+  environment:
+    - RABBITMQ_DEFAULT_USER
+    - RABBITMQ_DEFAULT_PASS
+    - USNB_EMAIL_HOST
+    - USNB_EMAIL_PORT
+    - USNB_EMAIL_USER
+    - USNB_EMAIL_PASSWORD
+    - USNB_FACEBOOK_USER
+    - USNB_FACEBOOK_PASSWORD
+  container_name: appcivist-usnb
+
 
 db:
   image: postgres:9.4.5
   environment:
-    POSTGRES_PASSWORD: postgres
-    POSTGRES_USER: postgres
+  - POSTGRES_PASSWORD
+  - POSTGRES_USER
+  - POSTGRES_DB
   volumes:
   - postgresql.conf:/etc/postgresql/postgresql.conf
   - /var/lib/postgresql/data:/var/lib/postgresql/data
   net: "host"
+  container_name: db
 
 mongo:
   image: mongo:3.0.15
@@ -81,3 +102,4 @@ mongo:
   ports:
     - "27017:27017"
   net: "host"
+  container_name: mongo

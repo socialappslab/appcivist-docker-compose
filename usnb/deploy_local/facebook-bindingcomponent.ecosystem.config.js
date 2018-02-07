@@ -56,8 +56,8 @@ module.exports = {
 
                 USNB_FACEBOOK_PERSONA_PORT: 3027,
                 USNB_FACEBOOK_PERSONA_EXCHANGE: 'facebookmessenger',
-                USNB_FACEBOOK_USER: '',
-                USNB_FACEBOOK_PASSWORD: ''
+                USNB_FACEBOOK_USER: 'S_FACEBOOK_USER',
+                USNB_FACEBOOK_PASSWORD: 'S_FACEBOOK_PASS'
             }
         }
     }
