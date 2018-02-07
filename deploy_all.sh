@@ -16,7 +16,7 @@ cd appcivist-voting-api
 git checkout master
 git pull origin master
 cd ..
-cd appcivist-docker
+cd appcivist-docker-compose
 docker-compose build
 echo 'Up db'
 docker-compose up -d db

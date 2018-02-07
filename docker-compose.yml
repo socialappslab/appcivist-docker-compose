@@ -15,7 +15,7 @@ appcivist-pb-client:
   ports:
     - "8080:8080"
   volumes:
-  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+  - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
   - /opt/appcivist/files:/opt/appcivist/files
   command: "./deploy.sh"
   net: "host"
@@ -26,7 +26,7 @@ appcivist-plataform:
   ports:
     - "9000:9000"
   volumes:
-  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
+  - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
   command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
   net: "host"
   volumes_from:
