@@ -1,3 +1,3 @@
 FROM postgres:9.4.5
-sudo apt-get install pgagent
+RUN apt-get install pgagent
 
