@@ -62,12 +62,12 @@ appcivist-usnb:
   net: "host"
 
 db:
-  image: postgres:9.4.5
+  build: ./postgres
   environment:
     POSTGRES_PASSWORD: postgres
     POSTGRES_USER: postgres
   volumes:
-  - postgresql.conf:/etc/postgresql/postgresql.conf
+  - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
   - /var/lib/postgresql/data:/var/lib/postgresql/data
   net: "host"
 
