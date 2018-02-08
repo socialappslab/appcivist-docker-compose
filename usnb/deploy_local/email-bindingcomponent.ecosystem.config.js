@@ -54,8 +54,8 @@ module.exports = {
                 USNB_EMAIL_PERSONA_PORT: 3026,
                 USNB_EMAIL_HOST: 'smtp.gmail.com',
                 USNB_EMAIL_PORT: 465,
-                USNB_EMAIL_USER: '',
-                USNB_EMAIL_PASSWORD: '',
+                USNB_EMAIL_USER: 'S_EMAIL_USER',
+                USNB_EMAIL_PASSWORD: 'S_EMAIL_PASS',
                 USNB_EMAIL_PERSONA_EXCHANGE: 'email'
             }
         }

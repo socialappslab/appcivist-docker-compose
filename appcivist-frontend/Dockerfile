@@ -14,6 +14,8 @@ RUN gem update --system
 RUN gem install compass
 RUN gem install sass
 RUN mkdir -p ${PROJECT_HOME}
+RUN mkdir -p /opt/appcivist/files
+RUN chown appcivist:appcivist /opt/appcivist/files
 RUN chown appcivist:appcivist ${PROJECT_HOME}
 RUN apt-get install -y apache2 git
 RUN mkdir /var/www/html/appcivist-pb

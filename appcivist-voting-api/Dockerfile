@@ -1,9 +1,6 @@
 FROM ruby:2.2.3
 MAINTAINER Cristhian Parra <cdparra@gmail.com>
 ENV PROJECT_HOME /home/appcivist/production/appcivist-voting-api
-ENV DB_PASS $VOTING_API_DB_PASS
-ENV DB_USER $VOTING_API_DB_USER
-ENV DB_USER $VOTING_API_SECRET
 
 RUN groupadd appcivist
 RUN useradd appcivist -m -g appcivist -s /bin/bash
