@@ -15,6 +15,8 @@ RUN chown appcivist:appcivist /opt/appcivist/files
 RUN chown appcivist:appcivist ${PROJECT_HOME}
 ADD appcivist-backend /etc/init.d/appcivist-backend
 RUN chmod 777 /etc/init.d/appcivist-backend
+ADD deploy.sh deploy.sh
+RUN chmod 777 deploy.sh
 USER appcivist
 #Add init script
 
@@ -23,4 +25,3 @@ EXPOSE 9000
 EXPOSE 9999
 EXPOSE 8888
 #build the project and start it
-ADD deploy.sh deploy.sh
