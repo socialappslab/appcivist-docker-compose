@@ -27,7 +27,7 @@ appcivist-plataform:
     - "9000:9000"
   volumes:
   - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: bash -c "/home/appcivist/production/appcivist-platform/./activator stage && /etc/init.d/appcivist-backend start"
+  command: "./deploy.sh"
   net: "host"
   volumes_from:
   - appcivist-pb-client

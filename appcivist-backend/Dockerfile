@@ -23,4 +23,4 @@ EXPOSE 9000
 EXPOSE 9999
 EXPOSE 8888
 #build the project and start it
-WORKDIR  ${PROJECT_HOME}
+ADD deploy.sh deploy.sh
