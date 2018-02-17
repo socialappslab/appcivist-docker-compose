@@ -26,7 +26,7 @@ appcivist-plataform:
   ports:
     - "9000:9000"
   volumes:
-  - /home/yohanna/desarrollo/appcivist-platform:/home/appcivist/production/appcivist-platform
+  - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
   command: "./deploy.sh"
   net: "host"
   volumes_from:
