@@ -1,5 +1,5 @@
 rabbitmq:
-  image: "rabbitmq:3-management"
+  image: "rabbitmq:3.7"
   hostname: "rabbitmq"
   environment:
   - RABBITMQ_DEFAULT_USER
@@ -38,7 +38,7 @@ appcivist-plataform:
   - APPCIVIST_DB_URL
   - POSTGRES_PASSWORD
   - POSTGRES_USER
-  - APPCIVIST_CONTRIBUTION_FILES_PATH=
+  - APPCIVIST_CONTRIBUTION_FILES_PATH
   - APPCIVIST_CONTRIBUTION_FILES_PATH_IS_ABSOLUTE
   - MAPBOX_API_TOKEN
   - IMGUR_CLIENT_ID
@@ -68,8 +68,8 @@ appcivist-plataform:
   - APPCIVIST_SMTP_PASS
   - APPCIVIST_EASY_MAIL_MAIL
   - APPCIVIST_EASY_MAIL_NAME
-  - RABBITMQ_DEFAULT_USER=user
-  - RABBITMQ_DEFAULT_PASS=pass
+  - RABBITMQ_DEFAULT_USER
+  - RABBITMQ_DEFAULT_PASS
 
 appcivist-voting-api:
   build: ./appcivist-voting-api
