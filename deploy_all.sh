@@ -18,15 +18,15 @@ git pull origin master
 cd ..
 cd appcivist-docker-compose
 docker-compose build
-echo 'Up db'
-docker-compose up -d db
-echo 'Up mongo'
-docker-compose up -d mongo
-while [ $(docker inspect -f '{{.State.Running}}' db) = "false" ]
-do
-echo 'Starting db'
-sleep 10
-done
+#echo 'Up db'
+#docker-compose up -d db
+#echo 'Up mongo'
+#docker-compose up -d mongo
+#while [ $(docker inspect -f '{{.State.Running}}' db) = "false" ]
+#do
+#echo 'Starting db'
+#sleep 10
+#done
 echo 'Up etherpad'
 docker-compose up -d etherpad-lite
 echo 'Up rabbitmq'
