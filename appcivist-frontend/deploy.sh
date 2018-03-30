@@ -8,8 +8,9 @@ bower -f update appcivist-patterns
 grunt build -f
 rm -rf /var/www/html/appcivist-pb/*
 cp -rf dist/* /var/www/html/appcivist-pb
-sudo service apache2 restart
-echo "ServerName testappcivist.org" | sudo tee /etc/apache2/conf-available/fqdn.conf
+sudo service apache2 stop
+sudo service apache2 start
+echo "ServerName appcivist.org" | sudo tee /etc/apache2/conf-available/fqdn.conf
 sudo a2enconf fqdn
 sudo service apache2 reload
 sudo a2ensite 000-default.conf
