@@ -70,7 +70,8 @@ appcivist-plataform:
   - APPCIVIST_EASY_MAIL_NAME
   - RABBITMQ_DEFAULT_USER
   - RABBITMQ_DEFAULT_PASS
-
+  - APPCIVIST_PEERDOC_URL
+  - APPCIVIST_PEERDOC_KEY
 appcivist-voting-api:
   build: ./appcivist-voting-api
   ports:
