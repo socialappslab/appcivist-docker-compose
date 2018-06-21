@@ -8,15 +8,26 @@ rabbitmq:
   net: "host"
   container_name: appcivist_rabbitmq
 
+apache:
+  build: ./apache
+  ports: 
+    - "8080:8080"
+    - "443:443"
+  net: "host"
+  volumes:
+  - /opt/appcivist/files:/opt/appcivist/files
+  - ./apache/confs:/etc/apache2/sites-available
+  - ./apache/deploys:/var/www/html
+  - ./apache/certs:/etc/apache2/certs
+  container_name: apache
+
 appcivist-pb-client:
   build: ./appcivist-frontend
-  ports:
-    - "8080:8080"
   volumes:
-  - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  - /opt/appcivist/files:/opt/appcivist/files
+  - /home/yohanna/desarrollo/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+  volumes_from:
+  - apache
   command: "./deploy.sh"
-  net: "host"
   container_name: appcivist-pb-client
 
 appcivist-plataform:
