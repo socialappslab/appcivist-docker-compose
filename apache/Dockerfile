@@ -17,4 +17,4 @@ RUN a2enmod proxy
 RUN service apache2 restart
 EXPOSE 8080
 EXPOSE 443
-CMD apachectl -D FOREGROUND
+CMD apachectl -k restart -D FOREGROUND
