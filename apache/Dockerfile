@@ -14,6 +14,7 @@ RUN chown appcivist:appcivist /opt/appcivist/files
 RUN apt-get install -y apache2
 RUN a2enmod ssl
 RUN a2enmod proxy
+RUN a2enmod proxy_http
 RUN service apache2 restart
 EXPOSE 8080
 EXPOSE 443
