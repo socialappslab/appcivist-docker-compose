@@ -16,7 +16,5 @@ RUN gem install sass
 RUN mkdir -p ${PROJECT_HOME}
 RUN chown appcivist:appcivist ${PROJECT_HOME}
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
-ADD sites sites
-ADD ssll  ssll
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
