@@ -1,4 +1,5 @@
 #!/bin/bash
+export `cat .env`
 cd /home/appcivist/production/appcivist-platform/conf/
 cp local.sample.conf local.conf
 cp play-authenticate/mine.sample.conf play-authenticate/mine.local.conf

@@ -18,6 +18,5 @@ RUN chmod 777 /etc/init.d/appcivist-voting-api.sh
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
 EXPOSE 5000
+RUN apt-get install -y vim
 USER appcivist
-
-

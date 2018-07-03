@@ -17,6 +17,7 @@ ADD appcivist-backend /etc/init.d/appcivist-backend
 RUN chmod 777 /etc/init.d/appcivist-backend
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
+RUN apt-get install -y vim
 USER appcivist
 #Add init script
 
@@ -25,3 +26,4 @@ EXPOSE 9000
 EXPOSE 9999
 EXPOSE 8888
 #build the project and start it
+

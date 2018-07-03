@@ -33,4 +33,5 @@ COPY deploy_local ${PROJECT_DIR}/usnb/deploy_local
 RUN chown -R appcivist:appcivist ${PROJECT_DIR}
 RUN chmod 777 ${PROJECT_DIR}/usnb/deploy_local/deploy.sh
 WORKDIR ${PROJECT_DIR}/usnb/deploy_local
+RUN apt-get install -y vim
 USER appcivist
