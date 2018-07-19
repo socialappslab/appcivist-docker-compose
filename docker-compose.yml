@@ -32,8 +32,6 @@ appcivist-pb-client:
   - apache
   command: "./deploy.sh"
   container_name: appcivist-pb-client
-  restart: always
-
 
 appcivist-plataform:
   build: ./appcivist-backend
@@ -56,10 +54,9 @@ appcivist-voting-api:
     - "5000:5000"
   volumes:
   - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh && tail -f /dev/null"
+  command: bash -c "./deploy.sh"
   net: "host"
   env_file: .env
-  restart: always
   container_name: appcivist-voting-api
 
 etherpad-lite:
