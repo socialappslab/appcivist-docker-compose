@@ -7,17 +7,33 @@ rabbitmq:
     - "15672:15672"
   net: "host"
   container_name: appcivist_rabbitmq
+  restart: always
+
+apache:
+  build: ./apache
+  ports: 
+    - "8080:8080"
+    - "443:443"
+  net: "host"
+  volumes:
+  - /opt/appcivist/files:/opt/appcivist/files
+  - ./apache/confs:/etc/apache2/sites-available
+  - ./apache/deploys:/var/www/html
+  - ./apache/certs:/etc/apache2/certs
+  container_name: apache
+  restart: always
+
 
 appcivist-pb-client:
   build: ./appcivist-frontend
-  ports:
-    - "8080:8080"
   volumes:
   - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  - /opt/appcivist/files:/opt/appcivist/files
+  volumes_from:
+  - apache
   command: "./deploy.sh"
-  net: "host"
   container_name: appcivist-pb-client
+  restart: always
+
 
 appcivist-plataform:
   build: ./appcivist-backend
@@ -31,6 +47,8 @@ appcivist-plataform:
   - appcivist-pb-client
   container_name: appcivist-plataform
   env_file: .env
+  restart: always
+
 
 appcivist-voting-api:
   build: ./appcivist-voting-api
@@ -41,6 +59,7 @@ appcivist-voting-api:
   command: bash -c "./deploy.sh && tail -f /dev/null"
   net: "host"
   env_file: .env
+  restart: always
   container_name: appcivist-voting-api
 
 etherpad-lite:
@@ -50,6 +69,8 @@ etherpad-lite:
   net: "host"
   env_file: .env
   container_name: etherpad-lite
+  restart: always
+
 
 appcivist-usnb:
   build: ./usnb
@@ -63,6 +84,7 @@ appcivist-usnb:
   net: "host"
   env_file: .env
   container_name: appcivist-usnb
+  restart: always
   
 db:
   build: ./postgres
@@ -72,6 +94,7 @@ db:
   - /var/lib/postgresql/data:/var/lib/postgresql/data
   net: "host"
   container_name: db
+  restart: always
 
 mongo:
   image: mongo:3.0.15
@@ -81,3 +104,5 @@ mongo:
     - "27017:27017"
   net: "host"
   container_name: mongo
+  restart: always
+
