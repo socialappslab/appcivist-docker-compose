@@ -32,6 +32,7 @@ appcivist-pb-client:
   - apache
   command: "./deploy.sh"
   container_name: appcivist-pb-client
+  env_file: .env
 
 appcivist-plataform:
   build: ./appcivist-backend
