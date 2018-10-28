@@ -32,6 +32,7 @@ appcivist-pb-client:
   - apache
   command: "./deploy.sh"
   container_name: appcivist-pb-client
+  env_file: .env
 
 appcivist-plataform:
   build: ./appcivist-backend
@@ -91,15 +92,5 @@ db:
   - /var/lib/postgresql/data:/var/lib/postgresql/data
   net: "host"
   container_name: db
-  restart: always
-
-mongo:
-  image: mongo:3.0.15
-  volumes:
-  - /var/lib/mongo/data:/data/db
-  ports:
-    - "27017:27017"
-  net: "host"
-  container_name: mongo
   restart: always
 
