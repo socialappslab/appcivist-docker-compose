@@ -12,12 +12,15 @@ rabbitmq:
 apache:
   build: ./apache
   ports: 
-    - "8080:8080"
-    - "443:443"
+    - "8081:8080"
+    - "4444:443"
+    - "8888:80"
+    - "9000:9000"
+    - "9001:9001"    
   net: "host"
   volumes:
-  - /opt/appcivist/files:/opt/appcivist/files
-  - ./apache/confs:/etc/apache2/sites-available
+  - /private/opt/appcivist/files:/opt/appcivist/files
+  - ./apache/confs-local:/etc/apache2/sites-available
   - ./apache/deploys:/var/www/html
   - ./apache/certs:/etc/apache2/certs
   container_name: apache
@@ -91,6 +94,8 @@ db:
   - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
   - /var/lib/postgresql/data:/var/lib/postgresql/data
   net: "host"
+  ports:
+    - "5433:5432"
   container_name: db
   restart: always
 

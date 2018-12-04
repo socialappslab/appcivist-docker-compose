@@ -16,6 +16,11 @@ RUN a2enmod ssl
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN service apache2 restart
-EXPOSE 8080
+EXPOSE 8081
 EXPOSE 443
+EXPOSE 4444
+EXPOSE 9000
+EXPOSE 8888
+EXPOSE 80
+EXPOSE 9001
 CMD apachectl -k restart -D FOREGROUND
