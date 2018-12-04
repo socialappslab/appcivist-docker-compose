@@ -12,14 +12,13 @@ rabbitmq:
 apache:
   build: ./apache
   ports: 
-    - "8081:8080"
-    - "4444:443"
-    - "8888:80"
-    - "9000:9000"
+    - "8080:8080"
+    - "443:443"
+    - "80:80"
     - "9001:9001"    
   net: "host"
   volumes:
-  - /private/opt/appcivist/files:/opt/appcivist/files
+  - ${APACHE_FILES_PATH}:/opt/appcivist/files
   - ./apache/confs-local:/etc/apache2/sites-available
   - ./apache/deploys:/var/www/html
   - ./apache/certs:/etc/apache2/certs
@@ -30,7 +29,9 @@ apache:
 appcivist-pb-client:
   build: ./appcivist-frontend
   volumes:
-  - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
+  - ${APPCIVIST_PB_CLIENT_PATH}:/home/appcivist/production/appcivist-pb-client
+  ports:
+  - "8000:8000"
   volumes_from:
   - apache
   command: "./deploy.sh"
@@ -42,7 +43,7 @@ appcivist-plataform:
   ports:
     - "9000:9000"
   volumes:
-  - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
+  - ${APPCIVIST_PLATFORM_PATH}:/home/appcivist/production/appcivist-platform
   command: "./deploy.sh"
   net: "host"
   volumes_from:
@@ -57,7 +58,7 @@ appcivist-voting-api:
   ports:
     - "5000:5000"
   volumes:
-  - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
+  - ${APPCIVIST_VOTING_API_PATH}:/home/appcivist/production/appcivist-voting-api
   command: bash -c "./deploy.sh"
   net: "host"
   env_file: .env

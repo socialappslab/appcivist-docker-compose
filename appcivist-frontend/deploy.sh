@@ -14,13 +14,17 @@ fi
 sed -i -e "s/SENTRY_SECRET/$SENTRY_SECRET/g" env.js
 sed -i -e "s/SENTRY_PROJECT_ID/$SENTRY_PROJECT_ID/g" env.js
 
+chmod 777 -R /home/appcivist/production/appcivist-pb-client
 cd /home/appcivist/production/appcivist-pb-client
-
-npm install grunt --save-dev
-npm install -f 
-bower install
-bower -f update appcivist-patterns
-grunt build -f
-mkdir -p /var/www/html/appcivist-pb
-cp -rf dist/* /var/www/html/appcivist-pb
+su appcivist
+npm install -g grunt-cli
+npm install -g bower
+gem update --system
+gem install compass
+gem install sass
+npm install -f
+grunt server
+#grunt build -f
+#mkdir -p /var/www/html/appcivist-pb
+#cp -rf dist/* /var/www/html/appcivist-pb
 
