@@ -19,4 +19,5 @@ RUN chown appcivist:appcivist ${PROJECT_HOME}
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
+RUN gem install haml
 EXPOSE 8000

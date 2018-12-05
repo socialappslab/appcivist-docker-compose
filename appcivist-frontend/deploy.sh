@@ -22,8 +22,9 @@ npm install -g bower
 gem update --system
 gem install compass
 gem install sass
+gem install haml
 npm install -f
-grunt server
+grunt server --force
 #grunt build -f
 #mkdir -p /var/www/html/appcivist-pb
 #cp -rf dist/* /var/www/html/appcivist-pb
