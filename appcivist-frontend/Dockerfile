@@ -1,5 +1,9 @@
 FROM digitallyseamless/nodejs-bower-grunt
 MAINTAINER Cristhian Parra <cdparra@gmail.com>
+RUN npm cache clean -f
+RUN npm install -g n
+RUN n stable
+
 ENV PROJECT_HOME /home/appcivist/production/appcivist-pb-client
 
 RUN groupadd appcivist
