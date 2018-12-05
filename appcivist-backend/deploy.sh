@@ -1,6 +1,6 @@
 #!/bin/bash
 export `cat .env`
-cd /home/appcivist/production/appcivist-platform/conf/
+cd $APPCIVIST_PLATFORM_PATH
 if [ -e local.conf ]
 then
     echo "Using existing conf/local.conf"
