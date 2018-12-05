@@ -93,7 +93,7 @@ db:
   env_file: .env
   volumes:
   - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
-  - /var/lib/postgresql/data:/var/lib/postgresql/data
+  - ${POSTGRES_FILES_PATH}:/var/lib/postgresql/data
   net: "host"
   ports:
     - "5433:5432"
