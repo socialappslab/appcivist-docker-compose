@@ -1,5 +1,6 @@
 #!/bin/bash
-HOME_DIR='/home/appcivist/production/'
+DOCKER_COMPOSE_DIR=`pwd`
+HOME_DIR='/Users/cdparra/Projects/appcivist'
 echo 'pulling backend'
 cd ${HOME_DIR}
 cd appcivist-platform
@@ -16,7 +17,7 @@ cd appcivist-voting-api
 git checkout master
 git pull origin master
 cd ..
-cd appcivist-docker-compose
+cd ${DOCKER_COMPOSE_DIR}
 docker-compose build
 #echo 'Up db'
 #docker-compose up -d db
