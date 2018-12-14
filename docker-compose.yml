@@ -1,101 +1,93 @@
-rabbitmq:
-  image: "rabbitmq:3-management"
-  hostname: "rabbitmq"
-  env_file: .env
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  net: "host"
-  container_name: appcivist_rabbitmq
-  restart: always
+version: "2"
+services:
+    rabbitmq:
+      image: "rabbitmq:3-management"
+      hostname: "rabbitmq"
+      env_file: .env
+      ports:
+        - "5673:5672"
+        - "15673:15672"
+      container_name: appcivist_rabbitmq
+      restart: always
 
-apache:
-  build: ./apache
-  ports: 
-    - "8081:8080"
-    - "4444:443"
-    - "8888:80"
-    - "9000:9000"
-    - "9001:9001"    
-  net: "host"
-  volumes:
-  - /private/opt/appcivist/files:/opt/appcivist/files
-  - ./apache/confs-local:/etc/apache2/sites-available
-  - ./apache/deploys:/var/www/html
-  - ./apache/certs:/etc/apache2/certs
-  container_name: apache
-  restart: always
+    apache:
+      build: ./apache
+      ports: 
+        - "8081:8080"
+        - "443:443"
+        - "81:80"
+      volumes:
+      - ${APACHE_FILES}:/opt/appcivist/files
+      - ${APACHE_DEPLOYS}:/var/www/html
+      container_name: apache
+      restart: always
 
 
-appcivist-pb-client:
-  build: ./appcivist-frontend
-  volumes:
-  - /home/appcivist/production/appcivist-pb-client:/home/appcivist/production/appcivist-pb-client
-  volumes_from:
-  - apache
-  command: "./deploy.sh"
-  container_name: appcivist-pb-client
-  env_file: .env
+    appcivist-pb-client:
+      build: ./appcivist-frontend
+      image: yolile/appcivist-pb-client
+      depends_on:
+      - appcivist-plataform
+      volumes:
+      - ${APACHE_DEPLOYS}:/var/www/html
+      - ${FRONTEND_FILES}:/home/appcivist/production/appcivist-pb-client
+      container_name: appcivist-pb-client
+      env_file: .env
 
-appcivist-plataform:
-  build: ./appcivist-backend
-  ports:
-    - "9000:9000"
-  volumes:
-  - /home/appcivist/production/appcivist-platform:/home/appcivist/production/appcivist-platform
-  command: "./deploy.sh"
-  net: "host"
-  volumes_from:
-  - appcivist-pb-client
-  container_name: appcivist-plataform
-  env_file: .env
-  restart: always
-
-
-appcivist-voting-api:
-  build: ./appcivist-voting-api
-  ports:
-    - "5000:5000"
-  volumes:
-  - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
-  command: bash -c "./deploy.sh"
-  net: "host"
-  env_file: .env
-  container_name: appcivist-voting-api
-
-etherpad-lite:
-  build: ./etherpad-lite
-  ports:
-    - "9001:9001"
-  net: "host"
-  env_file: .env
-  container_name: etherpad-lite
-  restart: always
+    appcivist-plataform:
+      build: ./appcivist-backend
+      image: yolile/appcivist-backend
+      depends_on:
+        - db
+        - apache
+        - rabbitmq
+        - appcivist-voting-api
+      command: sh deploy.sh & /etc/init.d/appcivist-backend start
+      links:
+      - db
+      - etherpad-lite
+      - rabbitmq
+      ports:
+        - "9000:9000"
+      volumes:
+      - ${BACKEND_FILES}:/home/appcivist/production/appcivist-platform
+      - ${APACHE_FILES}:/opt/appcivist/files
+      container_name: appcivist-plataform
+      env_file: .env
+      restart: always
 
 
-appcivist-usnb:
-  build: ./usnb
-  ports:
-    - "3023:3023"
-    - "3024:3024"
-    - "3025:3025"
-    - "3026:3026"
-    - "3027:3027"
-  command: bash -c "./deploy.sh production && tail -f /dev/null"
-  net: "host"
-  env_file: .env
-  container_name: appcivist-usnb
-  restart: always
-  
-db:
-  build: ./postgres
-  env_file: .env
-  volumes:
-  - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf
-  - /var/lib/postgresql/data:/var/lib/postgresql/data
-  net: "host"
-  ports:
-    - "5433:5432"
-  container_name: db
-  restart: always
+    appcivist-voting-api:
+      build: ./appcivist-voting-api
+      depends_on:
+      - apache
+      ports:
+        - "5000:5000"
+      volumes:
+      - ${VOTING_API_FILES}:/home/appcivist/production/appcivist-voting-api
+      env_file: .env
+      container_name: appcivist-voting-api
 
+    etherpad-lite:
+      build: ./etherpad-lite
+      depends_on:
+      - apache
+      - db
+
+      links:
+      - db
+      ports:
+        - "9001:9001"
+      env_file: .env
+      container_name: etherpad-lite
+      restart: always
+      
+    db:
+      build: ./postgres
+      env_file: .env
+      volumes:
+      - /var/lib/postgresql/data2:/var/lib/postgresql/data
+      ports:
+        - "5433:5432"
+      container_name: db
+      restart: always

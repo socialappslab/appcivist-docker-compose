@@ -14,7 +14,13 @@ RUN gem update --system
 RUN gem install compass
 RUN gem install sass
 RUN mkdir -p ${PROJECT_HOME}
+RUN mkdir -p /var/www/html
 RUN chown appcivist:appcivist ${PROJECT_HOME}
+RUN chown appcivist:appcivist /var/www/html
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
-ADD deploy.sh deploy.sh
-RUN chmod 777 deploy.sh
+
+WORKDIR ${PROJECT_HOME}
+ADD deploy.sh /tmp/deploy.sh
+RUN chmod 777 /tmp/deploy.sh
+USER appcivist
+CMD sh /tmp/deploy.sh && cp -rf dist/* /var/www/html/appcivist-pb

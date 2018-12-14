@@ -1,5 +1,4 @@
 #!/bin/bash
-export `cat .env`
 cd /home/appcivist/production/appcivist-platform/conf/
 if [ -e local.conf ]
 then
@@ -23,4 +22,4 @@ else
     cp play-authenticate/smtp.sample.conf play-authenticate/smtp.local.conf
 fi
 cd /home/appcivist/production/appcivist-platform/
-./activator stage && /etc/init.d/appcivist-backend start
+./activator stage

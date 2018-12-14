@@ -6,7 +6,7 @@ ENV PROJECT_HOME /home/appcivist/production/appcivist-platform
 RUN groupadd appcivist
 RUN useradd appcivist -m -g appcivist -s /bin/bash
 RUN passwd -d -u appcivist
-RUN apt-get update && apt-get install sudo
+RUN apt-get update && apt-get install -y sudo vim
 RUN echo "appcivist ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/appcivist
 RUN chmod 0440 /etc/sudoers.d/appcivist
 RUN mkdir -p ${PROJECT_HOME}
@@ -17,13 +17,8 @@ ADD appcivist-backend /etc/init.d/appcivist-backend
 RUN chmod 777 /etc/init.d/appcivist-backend
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
-RUN apt-get install -y vim
 USER appcivist
-#Add init script
-
-# Expose play ports 9000 default 9999 debug 8888 activator ui
 EXPOSE 9000
 EXPOSE 9999
 EXPOSE 8888
-#build the project and start it
-
+CMD sh deploy.sh & /etc/init.d/appcivist-backend start

@@ -6,7 +6,7 @@ RUN groupadd appcivist
 RUN useradd appcivist -m -g appcivist -s /bin/bash
 RUN passwd -d -u appcivist
 RUN apt-get update
-RUN apt-get install -y sudo nodejs
+RUN apt-get install -y sudo nodejs vim
 RUN echo "appcivist ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/appcivist
 RUN chmod 0440 /etc/sudoers.d/appcivist
 RUN mkdir -p ${PROJECT_HOME}
@@ -18,5 +18,5 @@ RUN chmod 777 /etc/init.d/appcivist-voting-api.sh
 ADD deploy.sh deploy.sh
 RUN chmod 777 deploy.sh
 EXPOSE 5000
-RUN apt-get install -y vim
 USER appcivist
+CMD bash -c "deploy.sh"

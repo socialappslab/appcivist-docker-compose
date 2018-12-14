@@ -1,7 +1,4 @@
 #!/bin/bash
-source ~/.bashrc
-
-#!/bin/bash
 cd /home/appcivist/production/appcivist-pb-client/app
 if [ -e env.js ]
 then
@@ -22,5 +19,5 @@ bower install
 bower -f update appcivist-patterns
 grunt build -f
 mkdir -p /var/www/html/appcivist-pb
-cp -rf dist/* /var/www/html/appcivist-pb
+
 
