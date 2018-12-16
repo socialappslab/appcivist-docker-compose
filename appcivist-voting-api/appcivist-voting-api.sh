@@ -29,7 +29,7 @@ set -e
 start_app (){
     which rails
     export SECRET_KEY_BASE=${VOTING_API_SECRET}
-    export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}"
+    export DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}"
     export RAILS_ENV=production
     export HOME=$APP_DIR
     if [ -f $PID_FILE ]

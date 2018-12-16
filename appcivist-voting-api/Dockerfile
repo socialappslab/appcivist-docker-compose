@@ -13,10 +13,17 @@ RUN mkdir -p ${PROJECT_HOME}
 RUN chown appcivist:appcivist ${PROJECT_HOME}
 RUN chown -R appcivist:appcivist ~/.gem
 RUN chown -R appcivist:appcivist /usr/local/bundle
+WORKDIR ${PROJECT_HOME}
+USER appcivist
+RUN gem install rails -v 4.2.7.1
+RUN gem install bundler
+RUN gem install pg
+USER root
 ADD appcivist-voting-api.sh /etc/init.d/appcivist-voting-api.sh
 RUN chmod 777 /etc/init.d/appcivist-voting-api.sh
-ADD deploy.sh deploy.sh
-RUN chmod 777 deploy.sh
-EXPOSE 5000
+ADD deploy.sh /tmp/deploy.sh
+RUN chmod 777 /tmp/deploy.sh
 USER appcivist
-CMD bash -c "deploy.sh"
+EXPOSE 5000
+
+CMD sh /tmp/deploy.sh

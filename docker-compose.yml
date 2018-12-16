@@ -67,7 +67,7 @@ services:
       - ${VOTING_API_FILES}:/home/appcivist/production/appcivist-voting-api
       env_file: .env
       container_name: appcivist-voting-api
-
+ 
     etherpad-lite:
       build: ./etherpad-lite
       depends_on:
