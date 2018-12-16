@@ -20,7 +20,11 @@ RUN chown appcivist:appcivist /var/www/html
 RUN chmod 777 -R /home/appcivist/production/appcivist-pb-client/
 
 WORKDIR ${PROJECT_HOME}
+RUN npm i npm@latest -g
+RUN npm install grunt -g
+RUN npm install bower -g
+RUN chown -R appcivist ~/.npm
+RUN chown -R appcivist /usr/local/lib/node_modules
 ADD deploy.sh /tmp/deploy.sh
 RUN chmod 777 /tmp/deploy.sh
-USER appcivist
-CMD sh /tmp/deploy.sh && cp -rf dist/* /var/www/html/appcivist-pb
+CMD sh /tmp/deploy.sh
