@@ -3,6 +3,7 @@ services:
     rabbitmq:
       image: "rabbitmq:3-management"
       hostname: "rabbitmq"
+      container_name: "rabbitmq"
       env_file: .env
       ports:
         - "5673:5672"
@@ -10,39 +11,27 @@ services:
       container_name: appcivist_rabbitmq
       restart: always
 
-    apache:
-      build: ./apache
-      ports: 
-        - "8081:8080"
-        - "443:443"
-        - "81:80"
-      volumes:
-      - ${APACHE_FILES}:/opt/appcivist/files
-      - ${APACHE_DEPLOYS}:/var/www/html
-      container_name: apache
-      restart: always
-
-
     appcivist-pb-client:
       build: ./appcivist-frontend
       image: yolile/appcivist-pb-client
       depends_on:
       - appcivist-plataform
+      ports:
+        - "8000:8000"
       volumes:
-      - ${APACHE_DEPLOYS}:/var/www/html
       - ${FRONTEND_FILES}:/home/appcivist/production/appcivist-pb-client
       container_name: appcivist-pb-client
       env_file: .env
 
     appcivist-plataform:
       build: ./appcivist-backend
+      stdin_open: true
       image: yolile/appcivist-backend
       depends_on:
         - db
-        - apache
         - rabbitmq
         - appcivist-voting-api
-      command: sh deploy.sh & /etc/init.d/appcivist-backend start
+      command: sh deploy.sh
       links:
       - db
       - etherpad-lite
@@ -51,7 +40,6 @@ services:
         - "9000:9000"
       volumes:
       - ${BACKEND_FILES}:/home/appcivist/production/appcivist-platform
-      - ${APACHE_FILES}:/opt/appcivist/files
       container_name: appcivist-plataform
       env_file: .env
       restart: always
@@ -59,8 +47,6 @@ services:
 
     appcivist-voting-api:
       build: ./appcivist-voting-api
-      depends_on:
-      - apache
       ports:
         - "5000:5000"
       volumes:
@@ -71,9 +57,7 @@ services:
     etherpad-lite:
       build: ./etherpad-lite
       depends_on:
-      - apache
       - db
-
       links:
       - db
       ports:
@@ -86,7 +70,7 @@ services:
       build: ./postgres
       env_file: .env
       volumes:
-      - /var/lib/postgresql/data2:/var/lib/postgresql/data
+      - /var/lib/postgresql/data5:/var/lib/postgresql/data
       ports:
         - "5433:5432"
       container_name: db

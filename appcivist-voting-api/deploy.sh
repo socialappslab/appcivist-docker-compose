@@ -1,4 +1,4 @@
 #!/bin/bash
 bundle install
-bundle update
+sh /etc/init.d/appcivist-voting-api.sh start
 tail -f /dev/null

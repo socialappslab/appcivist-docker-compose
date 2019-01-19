@@ -22,4 +22,4 @@ else
     cp play-authenticate/smtp.sample.conf play-authenticate/smtp.local.conf
 fi
 cd /home/appcivist/production/appcivist-platform/
-./activator stage && /etc/init.d/appcivist-backend start
+./activator run -Dconfig.resource=local.conf

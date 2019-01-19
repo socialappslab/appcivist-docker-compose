@@ -12,10 +12,12 @@ sed -i -e "s/SENTRY_SECRET/$SENTRY_SECRET/g" env.js
 sed -i -e "s/SENTRY_PROJECT_ID/$SENTRY_PROJECT_ID/g" env.js
 
 cd /home/appcivist/production/appcivist-pb-client
-bower install
-npm install
-grunt build
-mkdir -p /var/www/html/appcivist-pb
-cp -rf dist/* /var/www/html/appcivist-pb
+
+bower install -f
+npm install -f
+grunt server
+
+#mkdir -p /var/www/html/appcivist-pb
+#cp -rf dist/* /var/www/html/appcivist-pb
 
 

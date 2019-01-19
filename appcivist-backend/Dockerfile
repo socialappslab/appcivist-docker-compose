@@ -13,9 +13,7 @@ RUN mkdir -p ${PROJECT_HOME}
 RUN mkdir -p /opt/appcivist/files
 RUN chown appcivist:appcivist /opt/appcivist/files
 RUN chown appcivist:appcivist ${PROJECT_HOME}
-ADD appcivist-backend /etc/init.d/appcivist-backend
 ADD deploy.sh deploy.sh
-RUN chmod 777 /etc/init.d/appcivist-backend
 RUN chmod 777 deploy.sh
 USER appcivist
 EXPOSE 9000
