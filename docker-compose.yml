@@ -9,6 +9,14 @@ rabbitmq:
   container_name: appcivist_rabbitmq
   restart: always
 
+rabbitmq-service:
+  image: "rabbitmq:3"
+  ports: 
+    - "5672:5672"
+  restart: always
+  net: "host"
+  env_file: .env
+
 apache:
   build: ./apache
   ports: 
@@ -20,7 +28,7 @@ apache:
   net: "host"
   volumes:
   - /private/opt/appcivist/files:/opt/appcivist/files
-  - ./apache/confs-local:/etc/apache2/sites-available
+  - ./apache/confs:/etc/apache2/sites-available
   - ./apache/deploys:/var/www/html
   - ./apache/certs:/etc/apache2/certs
   container_name: apache
