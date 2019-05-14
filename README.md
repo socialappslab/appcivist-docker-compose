@@ -76,8 +76,13 @@ $ nano .env
 
 Default configuration files are available in the `apache/confs` folders. Domain names, redirections and a file server are all configured by these configuration files. By default, they have the original configuration of the prototype appcivist service instance, but you should absolutely modify them to your needs. Having a better organized boiler plate for this confs has been on our TODO list for a while. 
 
+For SSL, make sure sites are by default configured to use SSL certificates that sit on the `apache/certs` folder, mounted as `/etc/apache2/certs` in the container. Make sure that, if you do not have SSL certificates, comment all the lines that attempt to configure vhosts for it in the conf file, otherwise apache will not run. If you do have cert files, copy them to `apache/certs` and then update the links in the configurations. As an option, our Dockerfile for apache installs (`certbo-auto`)[https://certbot.eff.org/lets-encrypt/debianjessie-apache], which you can use to easily issue and install [Let's Encrypt](https://letsencrypt.org/) certificates. All you have to do is running the following, selecting properly the domains for which you would like to create certificates:
 
-For SSL, make sure sites are by default configured to use SSL certificates that sit on the `apache/certs` folder, mounted as `/etc/apache2/certs` in the container. Make sure that, if you do not have SSL certificates, comment all the lines that attempt to configure vhosts for it in the conf file, otherwise apache will not run. If you do have cert files, copy them to `apache/certs` and then update the links in the configurations. 
+```sh
+/usr/local/bin/certbot-auto --apache certonly
+```
+
+After the certificate is created and available somewhere in the container, you can change configurations to use them. 
 
 Finally, the `apache/confs` folder is mounted as a volume inside of the apache container, becoming effectively the `/etc/apache2/sites-available` within the container. What this means is that after building the apache container, you will have to enter that container and add each site configuration using the `a2ensite`. 
 ```sh
@@ -87,7 +92,6 @@ $ cd /etc/apache2/sites-available
 $ a2ensite *.conf
 $ service apache reload
 ```
-
 
 
 ### The first time that we deploy all, first we need to build and up the postgres db container with:
