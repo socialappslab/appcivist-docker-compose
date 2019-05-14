@@ -27,7 +27,7 @@ apache:
     - "9001:9001"    
   net: "host"
   volumes:
-  - /private/opt/appcivist/files:/opt/appcivist/files
+  - /opt/appcivist/files:/opt/appcivist/files
   - ./apache/confs:/etc/apache2/sites-available
   - ./apache/deploys:/var/www/html
   - ./apache/certs:/etc/apache2/certs
