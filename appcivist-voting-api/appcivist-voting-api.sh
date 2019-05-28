@@ -1,6 +1,6 @@
 #!/bin/sh 
 CMD="/usr/local/bundle/bin/rails"
-CMD_ARGS='server -p 5000'
+CMD_ARGS='server -p 5001'
 APP_DIR='/home/appcivist/production/appcivist-voting-api';
 PID_FILE=$APP_DIR/app.pid
 LOG_FILE=$APP_DIR/app.log

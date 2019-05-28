@@ -63,7 +63,7 @@ appcivist-plataform:
 appcivist-voting-api:
   build: ./appcivist-voting-api
   ports:
-    - "5000:5000"
+    - "5001:5001"
   volumes:
   - /home/appcivist/production/appcivist-voting-api:/home/appcivist/production/appcivist-voting-api
   command: bash -c "./deploy.sh"
